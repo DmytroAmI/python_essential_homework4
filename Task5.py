@@ -19,46 +19,6 @@ class SportComplex:
             if name == last_name:
                 return name, info
 
-    def menu(self):
-        """Display the menu on the sport complex"""
-        while True:
-            print("1. Sports\n2. Coaches team\n3. Find coach\n4. Schedule\n5. Cost of training\n6. Exit")
-            choice = input("Enter your choice: ").strip()
-
-            match choice:
-                case "1":
-                    print("List of sports:")
-                    for sport in self.sports:
-                        print("\t", sport)
-                case "2":
-                    print("Trainers:", end="")
-                    for name, info in self.coaches.items():
-                        print("\n", name, end="")
-                        for key, value in info.items():
-                            print(f": {key} - '{value}'", end="")
-                    print()
-                case "3":
-                    find = input("Enter coach last name: ").strip().title()
-                    try:
-                        if find not in self.coaches.keys():
-                            raise NoKeyError
-                    except NoKeyError:
-                        print("There is no coach with this last name")
-                        continue
-
-                    result = self.find_coach(find)
-                    print(result[0], ":")
-                    for key, value in result[1].items():
-                        print(f"\t{key} - '{value}'")
-                case "4":
-                    print("Training schedule:", self.schedule, "\n")
-                case "5":
-                    print("Training cost:", self.cost, "\n")
-                case "6":
-                    break
-                case _:
-                    print("Invalid input, try again")
-
 
 class Coach:
     """Describe a sport coach"""
@@ -83,6 +43,47 @@ class NoKeyError(Exception):
     pass
 
 
+def menu(sport_complex):
+    """Display the menu on the sport complex"""
+    while True:
+        print("1. Sports\n2. Coaches team\n3. Find coach\n4. Schedule\n5. Cost of training\n6. Exit")
+        choice = input("Enter your choice: ").strip()
+
+        match choice:
+            case "1":
+                print("List of sports:")
+                for sport in sport_complex.sports:
+                    print("\t", sport)
+            case "2":
+                print("Trainers:", end="")
+                for name, info in sport_complex.coaches.items():
+                    print("\n", name, end="")
+                    for key, value in info.items():
+                        print(f": {key} - '{value}'", end="")
+                print()
+            case "3":
+                find = input("Enter coach last name: ").strip().title()
+                try:
+                    if find not in sport_complex.coaches.keys():
+                        raise NoKeyError
+                except NoKeyError:
+                    print("There is no coach with this last name")
+                    continue
+
+                result = sport_complex.find_coach(find)
+                print(result[0], ":")
+                for key, value in result[1].items():
+                    print(f"\t{key} - '{value}'")
+            case "4":
+                print("Training schedule:", sport_complex.schedule)
+            case "5":
+                print("Training cost:", sport_complex.cost)
+            case "6":
+                break
+            case _:
+                print("Invalid input, try again")
+
+
 if __name__ == "__main__":
     coach1 = Coach("Brown", "Boxing", "some schedule", 1000)
     coach2 = Coach("Sanders", "Football", "some schedule", 800)
@@ -90,7 +91,7 @@ if __name__ == "__main__":
 
     sports_activities = ["Football", "Volleyball", "Tennis", "Boxing", "Basketball"]
 
-    sport_complex = SportComplex(sports_activities, Coach.sport_coach, "some schedule", 200)
-    sport_complex.add_coach(Coach("Morrison", "Tennis", "some schedule", 850))
+    sport_complex1 = SportComplex(sports_activities, Coach.sport_coach, "some schedule", 200)
+    sport_complex1.add_coach(Coach("Morrison", "Tennis", "some schedule", 850))
 
-    sport_complex.menu()
+    menu(sport_complex1)
