@@ -24,18 +24,20 @@ def divide(num1, num2):
 def power(num1, num2):
     """Powers two numbers"""
     try:
-        if num1 == 0 and num2 < 0:
-            raise ValueError("You can't raise zero to a negative power")
         return num1 ** num2
-    except Exception as e:
-        return f"ValueError, {e}"
+    except ZeroDivisionError:
+        return "You can't raise zero to a negative power"
 
 
 def menu():
     """Menu options"""
     while True:
-        number1 = int(input("Enter first number: "))
-        number2 = int(input("Enter second number: "))
+        try:
+            number1 = int(input("Enter first number: "))
+            number2 = int(input("Enter second number: "))
+        except ValueError:
+            print("Input must be an integer")
+            break
 
         print("1. additional\n2. subtraction\n3. multiplication\n4. division\n5. power\n6. exit")
         choice = input("Select the operation: ").strip()

@@ -6,12 +6,11 @@ class Employee:
         self.first_name = first_name
         self.last_name = last_name
         self.dept = department
+
+        if year > 2024:
+            raise ValueError("Year cannot be greater than current year")
+
         self.year = year
-        try:
-            if year > 2024:
-                raise ValueError("Year cannot be greater than current year")
-        except Exception as e:
-            print(f"Input error, {e}")
 
     def __str__(self):
         """Return string representation of Employee"""
@@ -22,7 +21,13 @@ def add_emp():
     """Add Employee to list"""
     employees = []
     while True:
-        employee = Employee(input("First name: "), input("Last_name: "), input("Department: "), int(input("Year: ")))
+        try:
+            employee = (
+                Employee(input("First name: "), input("Last name: "), input("Department: "), int(input("Year: "))))
+        except Exception as e:
+            print("Invalid input,", e)
+            continue
+
         employees.append(employee)
 
         choice = input("Enter '1' for exit: ").strip()
@@ -33,10 +38,10 @@ def add_emp():
 
 
 def find_emp(employees):
-    """Find Employees hired after this year"""
+    """Find Employees"""
     founded = []
     for e in employees:
-        if e.year > 2024:
+        if e.year > 2024 or e.year < 2000:
             founded.append(e)
 
     return founded

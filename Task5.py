@@ -8,11 +8,6 @@ class SportComplex:
         self.schedule = schedule
         self.cost = cost
 
-    def add_coach(self, coach):
-        """Add a coach to the coaches team"""
-        self.coaches.update(
-            {coach.last_name: {"sport": coach.sport, "schedule": coach.schedule, "salary": coach.salary}})
-
     def find_coach(self, last_name):
         """Find a coach by last name"""
         for name, info in self.coaches.items():
@@ -20,27 +15,14 @@ class SportComplex:
                 return name, info
 
 
-class Coach:
-    """Describe a sport coach"""
-    sport_coach = {}
-
-    def __init__(self, last_name, sport, schedule, salary):
-        """Initialize the attributes"""
-        self.last_name = last_name
-        self.sport = sport
-        self.schedule = schedule
-        self.salary = salary
-
-        Coach.sport_coach.update(
-            {self.last_name: {"sport": self.sport, "schedule": self.schedule, "salary": self.salary}})
-
-    def __str__(self):
-        """Print the coach attributes"""
-        return f"{self.last_name}, sport {self.sport}"
-
-
 class NoKeyError(Exception):
     pass
+
+
+def add_coach(team, last_name, sport, schedule, salary):
+    """Add coach"""
+    team.update({last_name: {"sport": sport, "schedule": schedule, "salary": salary}})
+    return team
 
 
 def menu(sport_complex):
@@ -85,13 +67,13 @@ def menu(sport_complex):
 
 
 if __name__ == "__main__":
-    coach1 = Coach("Brown", "Boxing", "some schedule", 1000)
-    coach2 = Coach("Sanders", "Football", "some schedule", 800)
-    coach3 = Coach("Lebron", "Volleyball", "some schedule", 1100)
+    coach_team = {}
+    add_coach(coach_team, "Miller", "Football", "some schedule", 1000)
+    add_coach(coach_team, "Gerard", "Tennis", "some schedule", 800)
+    add_coach(coach_team, "Bale", "Volleyball", "some schedule", 950)
 
     sports_activities = ["Football", "Volleyball", "Tennis", "Boxing", "Basketball"]
 
-    sport_complex1 = SportComplex(sports_activities, Coach.sport_coach, "some schedule", 200)
-    sport_complex1.add_coach(Coach("Morrison", "Tennis", "some schedule", 850))
+    sport_complex1 = SportComplex(sports_activities, coach_team, "some schedule", 200)
 
     menu(sport_complex1)
